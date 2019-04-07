@@ -6,12 +6,12 @@
   <meta name="author" content="Dong Yuanxin">
   
   
-  <title>标签: ARTS | Machuw&#39;s Blog</title>
+  <title>[R] Scalability for Dummies | Machuw&#39;s Blog</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="Hexo, Theme-AD">
+    <meta name="keywords" content="ARTS,">
   
 
   
@@ -42,7 +42,7 @@
     welcome: {"enable":false,"interval":30},
     start_time: "2018-02-10",
     passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
-    is_post: false,
+    is_post: true,
     lock: false,
     author: "Dong Yuanxin",
     share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
@@ -160,19 +160,95 @@
 </nav>
 <div id="site-process"></div>
     <main>
-      <div class="timeline">
-  <h2 class="timeline-title">标签: ARTS</h2>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-04-07
+    </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    [R] Scalability for Dummies
+  </h1>
   
+  <article class="passage-article">
+    <p>url: <a href="http://www.lecloud.net/tagged/scalability" target="_blank" rel="noopener">http://www.lecloud.net/tagged/scalability</a></p>
+<h2 id="Part-1-Clones-Instance"><a href="#Part-1-Clones-Instance" class="headerlink" title="Part 1: Clones/Instance"></a>Part 1: Clones/Instance</h2><p>That leads to the first golden rule for scalability: <strong>every server contains exactly the same codebase and does not store any user-related data, like sessions or profile picture, on local disc or memory.</strong></p>
+<ul>
+<li>“outsourcing” your session: an external database or an external presistent cache</li>
+<li>serving the same codebase: solved by the great tool Capistrano</li>
+</ul>
+<h2 id="Part-2-Database"><a href="#Part-2-Database" class="headerlink" title="Part 2: Database"></a>Part 2: Database</h2><p>To fix the database preformance problems, you can choose from 2 paths:</p>
+<ul>
+<li><strong>Path #1</strong> is to stick with MySQL and keep the “beast” running.</li>
+<li><strong>Path #2</strong> means to denormalize right from the beginning and include no more Joins in any database query. </li>
+</ul>
+<h2 id="Part-3-Cache"><a href="#Part-3-Cache" class="headerlink" title="Part 3: Cache"></a>Part 3: Cache</h2><p>“cache” mean in-memory caches like Memcached or Redis.<br><strong>Never do file-based caching</strong>, it makes cloning and auto-scaling of your servers just a pain.<br>There are 2 patterns of caching your data. An old one and a new one:</p>
+<ul>
+<li><strong>Pattern #1</strong> Cached Database Queries</li>
+<li><strong>Pattern #2</strong> Cached Objects (That’s  my strong recommendation and I always prefer this pattern.)</li>
+</ul>
+<h2 id="Part-4-Asynchronism"><a href="#Part-4-Asynchronism" class="headerlink" title="Part 4: Asynchronism"></a>Part 4: Asynchronism</h2><p>To avoid such a “please wait a while” - situation, asynchronism needs to be done.<br>In general, there are two ways / paradigms asynchronism can be done.</p>
+<ul>
+<li><strong>Async #1</strong> - “bake the breads at night and sell them in the morning” way, it means doing the time-consuming work in advance and serving the finished work with a low request time.</li>
+<li><strong>Async #2</strong> - “start the task when the customer is in the bakery and tell him to come back at the next day”, it means to handle task asynchronously.</li>
+</ul>
+<p><strong>tutorials</strong></p>
+<ul>
+<li><a href="https://t.umblr.com/redirect?z=http%3A%2F%2Fwww.rabbitmq.com%2F&amp;t=OTNhMmNkNTgwMjU3N2MwOTQyMzFiZDk1ZmI4OGMwZjE0MWZjMzdiYSxqbHhiaDBWZQ%3D%3D&amp;b=t%3AeE4iDilbUfNhGIklAbjWYQ&amp;p=http%3A%2F%2Fwww.lecloud.net%2Fpost%2F9699762917%2Fscalability-for-dummies-part-4-asynchronism&amp;m=1" target="_blank" rel="noopener">RabbitMQ</a> is one of many systems which help to implement async processing</li>
+<li><a href="https://t.umblr.com/redirect?z=http%3A%2F%2Factivemq.apache.org%2F&amp;t=ZTFiYjYzYTFkZjQxODNiZTI1M2VkOGE0OWYyNTJiNTNlY2RjNDVhYSxqbHhiaDBWZQ%3D%3D&amp;b=t%3AeE4iDilbUfNhGIklAbjWYQ&amp;p=http%3A%2F%2Fwww.lecloud.net%2Fpost%2F9699762917%2Fscalability-for-dummies-part-4-asynchronism&amp;m=1" target="_blank" rel="noopener">ActiveMQ</a> and <a href="https://t.umblr.com/redirect?z=http%3A%2F%2Fredis.io%2Ftopics%2Fdata-types&amp;t=Njg1MTAyMDc0MDdhNDdmMTA0ZTIxOGZkMmRkMmU3MDg4MjY3MjZmOSxqbHhiaDBWZQ%3D%3D&amp;b=t%3AeE4iDilbUfNhGIklAbjWYQ&amp;p=http%3A%2F%2Fwww.lecloud.net%2Fpost%2F9699762917%2Fscalability-for-dummies-part-4-asynchronism&amp;m=1" target="_blank" rel="noopener">Redis list</a>. The basic idea is to have a queue of tasks or jobs that a worker can process.</li>
+</ul>
+
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Part-1-Clones-Instance"><span class="toc-text">Part 1: Clones/Instance</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Part-2-Database"><span class="toc-text">Part 2: Database</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Part-3-Cache"><span class="toc-text">Part 3: Cache</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Part-4-Asynchronism"><span class="toc-text">Part 4: Asynchronism</span></a></li></ol>
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: 马远超</div>
+      
+        <div>
+          原文链接: 
+          <a href target="_blank">http://yoursite.com/passagesR-Scalability-for-Dummies-2/</a>
+        </div>
+      
+      <div>
+        版权声明: 本博客所有文章除特别声明外, 均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/ARTS/"><i class="fa fa-tags"></i>ARTS</a>
     
-      <h3 class="timeline-subtitle">2019</h3>
-    
-    <div class="timeline-item">
-      <time>2019-04-07</time>
-      <a target="_self" href="/passagesR-Scalability-for-Dummies-2/">[R] Scalability for Dummies</a>
     </div>
   
 </div>
+
     </main>
+    
+      
+<div class="site-comment-contanier" data-plateform="leancloud">
+  
+    <p id="site-comment-info">
+      <i class="fa fa-spinner fa-spin"></i> 评论加载中
+    </p>
+    <div id="site-comment"></div>
+  
+</div>
     
     <div class="site-footer-wrapper">
   <footer class="site-footer">
@@ -276,16 +352,16 @@
     <a href="javascript:void(0);" data-enable="false">
       <i class="fa fa-arrow-left"></i>
     </a>
-    <a href="javascript:void(0);" data-enable="false">
+    <a href="/passageshello-world-1/" data-enable="true">
       <i class="fa fa-arrow-right"></i>
     </a>
   </div>
   <div class="bottom-bar-right">
-    <a href="javascript:void(0);" data-enable="false" id="site-toc-show-btn">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
       <i class="fa fa-bars"></i>
     </a>
     
-      <a href="javascript:void(0);" data-enable="false">
+      <a href="#site-comment" data-enable="true">
         <i class="fa fa-commenting"></i>
       </a>
     
