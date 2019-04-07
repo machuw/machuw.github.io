@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta name="keywords" content="hexo, autumn">
+    <title>
+        Machuw&#39;s Blog
+    </title>
+    <!-- favicon -->
+    
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/favicon.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- highlight -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/github-gist.min.css">
+    <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad()
+    </script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@1.0.0/dist/hexo-infinite-scroll.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@1.0.0/dist/hexo-infinite-scroll.min.js"></script>
+    <script>
+        infiniteScroll()
+
+        // for mobile menu
+        $(function () {
+            $('.social-button').click(function () {
+                if ($('.social-links').hasClass('hide-links')) {
+                    $('.social-links').removeClass('hide-links')
+                } else {
+                    $('.social-links').addClass('hide-links')
+                }
+            })
+        })
+    </script>
+</head>
+
+    <body style="background: url(https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/button-bg.png) #f3f3f3">
+        <div class="container">
+            <header class="header">
+    <h1 class="title">
+        <a href="/" class="logo">
+            Machuw&#39;s Blog
+        </a>
+    </h1>
+    <h2 class="desc">
+        
+    </h2>
+
+    <nav class="links">
+        <button class="social-button">
+            menu
+        </button>
+        <ul class="social-links hide-links">
+            
+                <li>
+                    <a href="https://github.com/FrontendSophie">
+                        Github
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="https://www.linkedin.com/in/frontendsophie/">
+                        LinkedIn
+                    </a>
+                </li>
+                
+        </ul>
+    </nav>
+</header>
+                <main class="main">
+                    <article class="post">
+    
+    
+    
+    <h2 class="post-title">
+        [R] Scalability for Dummies
+    </h2>
+    <ul class="post-date">
+        <li>
+            2019-04-07
+        </li>
+        <li>
+            John Doe
+        </li>
+    </ul>
+    <div class="post-content">
+        <p>url: <a href="http://www.lecloud.net/tagged/scalability" target="_blank" rel="noopener">http://www.lecloud.net/tagged/scalability</a></p>
+<h2 id="Part-1-Clones-Instance"><a href="#Part-1-Clones-Instance" class="headerlink" title="Part 1: Clones/Instance"></a>Part 1: Clones/Instance</h2><p>That leads to the first golden rule for scalability: <strong>every server contains exactly the same codebase and does not store any user-related data, like sessions or profile picture, on local disc or memory.</strong></p>
+<ul>
+<li>“outsourcing” your session: an external database or an external presistent cache</li>
+<li>serving the same codebase: solved by the great tool Capistrano</li>
+</ul>
+<h2 id="Part-2-Database"><a href="#Part-2-Database" class="headerlink" title="Part 2: Database"></a>Part 2: Database</h2><p>To fix the database preformance problems, you can choose from 2 paths:</p>
+<ul>
+<li><strong>Path #1</strong> is to stick with MySQL and keep the “beast” running.</li>
+<li><strong>Path #2</strong> means to denormalize right from the beginning and include no more Joins in any database query. </li>
+</ul>
+<h2 id="Part-3-Cache"><a href="#Part-3-Cache" class="headerlink" title="Part 3: Cache"></a>Part 3: Cache</h2><p>“cache” mean in-memory caches like Memcached or Redis.<br><strong>Never do file-based caching</strong>, it makes cloning and auto-scaling of your servers just a pain.<br>There are 2 patterns of caching your data. An old one and a new one:</p>
+<ul>
+<li><strong>Pattern #1</strong> Cached Database Queries</li>
+<li><strong>Pattern #2</strong> Cached Objects (That’s  my strong recommendation and I always prefer this pattern.)</li>
+</ul>
+<h2 id="Part-4-Asynchronism"><a href="#Part-4-Asynchronism" class="headerlink" title="Part 4: Asynchronism"></a>Part 4: Asynchronism</h2><p>To avoid such a “please wait a while” - situation, asynchronism needs to be done.<br>In general, there are two ways / paradigms asynchronism can be done.</p>
+<ul>
+<li><strong>Async #1</strong> - “bake the breads at night and sell them in the morning” way, it means doing the time-consuming work in advance and serving the finished work with a low request time.</li>
+<li><strong>Async #2</strong> - “start the task when the customer is in the bakery and tell him to come back at the next day”, it means to handle task asynchronously.</li>
+</ul>
+<p><strong>tutorials</strong></p>
+<ul>
+<li><a href="https://t.umblr.com/redirect?z=http%3A%2F%2Fwww.rabbitmq.com%2F&amp;t=OTNhMmNkNTgwMjU3N2MwOTQyMzFiZDk1ZmI4OGMwZjE0MWZjMzdiYSxqbHhiaDBWZQ%3D%3D&amp;b=t%3AeE4iDilbUfNhGIklAbjWYQ&amp;p=http%3A%2F%2Fwww.lecloud.net%2Fpost%2F9699762917%2Fscalability-for-dummies-part-4-asynchronism&amp;m=1" target="_blank" rel="noopener">RabbitMQ</a> is one of many systems which help to implement async processing</li>
+<li><a href="https://t.umblr.com/redirect?z=http%3A%2F%2Factivemq.apache.org%2F&amp;t=ZTFiYjYzYTFkZjQxODNiZTI1M2VkOGE0OWYyNTJiNTNlY2RjNDVhYSxqbHhiaDBWZQ%3D%3D&amp;b=t%3AeE4iDilbUfNhGIklAbjWYQ&amp;p=http%3A%2F%2Fwww.lecloud.net%2Fpost%2F9699762917%2Fscalability-for-dummies-part-4-asynchronism&amp;m=1" target="_blank" rel="noopener">ActiveMQ</a> and <a href="https://t.umblr.com/redirect?z=http%3A%2F%2Fredis.io%2Ftopics%2Fdata-types&amp;t=Njg1MTAyMDc0MDdhNDdmMTA0ZTIxOGZkMmRkMmU3MDg4MjY3MjZmOSxqbHhiaDBWZQ%3D%3D&amp;b=t%3AeE4iDilbUfNhGIklAbjWYQ&amp;p=http%3A%2F%2Fwww.lecloud.net%2Fpost%2F9699762917%2Fscalability-for-dummies-part-4-asynchronism&amp;m=1" target="_blank" rel="noopener">Redis list</a>. The basic idea is to have a queue of tasks or jobs that a worker can process.</li>
+</ul>
+
+    </div>
+</article>
+                </main>
+                <aside class="aside">
+                    <section class="aside-section">
+                        
+    <h1>Categories</h1>
+
+    
+
+                    </section>
+                    <section class="aside-section">
+                        
+    <h1>Archives</h1>
+
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a></li></ul>
+
+
+                    </section>
+                    <section class="aside-section tag">
+                        
+    <h1>Tags</h1>
+
+    <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ARTS/">ARTS</a></li></ul>
+
+                    </section>
+                </aside>
+        </div>
+    </body>
+
+</html>
